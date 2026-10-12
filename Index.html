@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anime Archive Index — Fall 2026</title>
+<style>
+  :root {
+    --bg: #050608;
+    --accent: #e50914;
+    --accent-dim: #8b0a10;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+    --glass-hover: rgba(255,255,255,0.07);
+    --text: #e8e8e8;
+    --text-dim: #8a8a8a;
+    --text-dimmer: #555;
+    --kdrama-accent: #4a90d9;
+    --kdrama-accent-dim: rgba(74,144,217,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  @media (hover: none) {
+    body { cursor: auto; }
+    .cursor-dot, .cursor-ring { display: none !important; }
+  }
+
+  /* PARALLAX GLOW LAYERS */
+  .glow-layer {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(80px);
+    will-change: transform;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .glow-1 {
+    top: -20%;
+    left: -15%;
+    width: 55%;
+    height: 70%;
+    background: radial-gradient(ellipse, rgba(229,9,20,0.09) 0%, transparent 70%);
+  }
+
+  .glow-2 {
+    bottom: -25%;
+    right: -15%;
+    width: 55%;
+    height: 70%;
+    background: radial-gradient(ellipse, rgba(229,9,20,0.07) 0%, transparent 70%);
+  }
+
+  .glow-3 {
+    top: 40%;
+    left: 30%;
+    width: 40%;
+    height: 50%;
+    background: radial-gradient(ellipse, rgba(229,9,20,0.04) 0%, transparent 70%);
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent), 0 0 20px rgba(229,9,20,0.6);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+  }
+
+  .cursor-ring {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(229,9,20,0.5);
+    transition: width 0.25s cubic-bezier(0.23, 1, 0.32, 1),
+                height 0.25s cubic-bezier(0.23, 1, 0.32, 1),
+                border-color 0.25s,
+                background 0.25s;
+  }
+
+  .cursor-dot.hover {
+    width: 12px;
+    height: 12px;
+  }
+
+  .cursor-ring.hover {
+    width: 60px;
+    height: 60px;
+    border-color: rgba(229,9,20,0.9);
+    background: rgba(229,9,20,0.08);
+  }
+
+  .cursor-dot.click {
+    width: 4px;
+    height: 4px;
+  }
+
+  .cursor-ring.click {
+    width: 24px;
+    height: 24px;
+    border-color: var(--accent);
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+  }
+
+  /* HEADER */
+  header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--glass-border);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  header.revealed {
+    animation: revealDown 0.9s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  @keyframes revealDown {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    position: relative;
+  }
+
+  h1 span {
+    color: var(--accent);
+    text-shadow: 0 0 20px rgba(229,9,20,0.5);
+    animation: titleGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes titleGlow {
+    0%, 100% { text-shadow: 0 0 20px rgba(229,9,20,0.5); }
+    50% { text-shadow: 0 0 30px rgba(229,9,20,0.9), 0 0 40px rgba(229,9,20,0.4); }
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .badge {
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass);
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .badge.accent {
+    border-color: rgba(229,9,20,0.4);
+    color: var(--accent);
+    background: rgba(229,9,20,0.08);
+  }
+
+  .badge.live {
+    border-color: rgba(229,9,20,0.6);
+    color: #fff;
+    background: rgba(229,9,20,0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .badge.live::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+
+  /* CONTROLS */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .controls.revealed {
+    animation: revealDown 0.9s cubic-bezier(0.23, 1, 0.32, 1) 0.15s forwards;
+  }
+
+  .search-wrap {
+    flex: 1 1 200px;
+    position: relative;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    padding: 10px 14px 10px 36px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.82rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.3s;
+    backdrop-filter: blur(8px);
+  }
+
+  .search-wrap input::placeholder { color: var(--text-dimmer); }
+
+  .search-wrap input:focus {
+    border-color: rgba(229,9,20,0.5);
+    box-shadow: 0 0 0 3px rgba(229,9,20,0.1), 0 0 20px rgba(229,9,20,0.15);
+  }
+
+  .search-wrap::before {
+    content: '⌕';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dimmer);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+
+  .toggle-group {
+    display: flex;
+    gap: 4px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 3px;
+    backdrop-filter: blur(8px);
+  }
+
+  .toggle-group button {
+    padding: 7px 14px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    cursor: none;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .toggle-group button.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(229,9,20,0.5);
+  }
+
+  .mal-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: none;
+    user-select: none;
+    padding: 6px 0;
+  }
+
+  .switch-track {
+    width: 36px;
+    height: 20px;
+    border-radius: 10px;
+    background: var(--glass-border);
+    position: relative;
+    transition: background 0.2s, box-shadow 0.3s;
+    flex-shrink: 0;
+  }
+
+  .switch-track::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text-dimmer);
+    transition: all 0.2s;
+  }
+
+  .mal-switch.on .switch-track {
+    background: rgba(229,9,20,0.4);
+    box-shadow: 0 0 12px rgba(229,9,20,0.4);
+  }
+
+  .mal-switch.on .switch-track::after {
+    left: 18px;
+    background: var(--accent);
+  }
+
+  /* DAY TABS */
+  .day-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .day-tabs.revealed {
+    animation: revealDown 0.9s cubic-bezier(0.23, 1, 0.32, 1) 0.3s forwards;
+  }
+
+  .day-tab {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass);
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.15s;
+    backdrop-filter: blur(8px);
+    position: relative;
+  }
+
+  .day-tab:hover {
+    border-color: rgba(229,9,20,0.3);
+    color: var(--text);
+  }
+
+  .day-tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(229,9,20,0.5);
+  }
+
+  /* LAYOUT */
+  .view-container { min-height: 200px; }
+
+  .grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }
+
+  .grid-view .anime-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .list-view .anime-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+  }
+
+  .list-view .anime-card .info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .list-view .anime-card .title {
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .list-view .anime-card .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  /* CARD BASE — 3D TILT-READY */
+  .anime-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    backdrop-filter: blur(12px);
+    transition: background 0.2s, border-color 0.2s, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .anime-card.revealed {
+    animation: cardReveal 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  @keyframes cardReveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .anime-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(229,9,20,0.3), transparent);
+  }
+
+  .anime-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(229,9,20,0.12) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .anime-card:hover::after {
+    opacity: 1;
+  }
+
+  .anime-card:hover {
+    background: var(--glass-hover);
+    border-color: rgba(229,9,20,0.3);
+    box-shadow: 0 10px 40px rgba(229,9,20,0.15), 0 0 0 1px rgba(229,9,20,0.1);
+  }
+
+  .anime-card.kdrama::before {
+    background: linear-gradient(90deg, transparent, rgba(74,144,217,0.4), transparent);
+  }
+
+  .anime-card.kdrama:hover {
+    border-color: rgba(74,144,217,0.3);
+    box-shadow: 0 10px 40px rgba(74,144,217,0.15), 0 0 0 1px rgba(74,144,217,0.1);
+  }
+
+  .anime-card.kdrama::after {
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(74,144,217,0.12) 0%, transparent 60%);
+  }
+
+  .anime-card .title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text);
+    transform: translateZ(20px);
+  }
+
+  .grid-view .anime-card .title {
+    font-size: 0.86rem;
+    min-height: 2.4em;
+  }
+
+  .anime-card .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    transform: translateZ(10px);
+  }
+
+  .type-tag {
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--glass-border);
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .type-tag.kdrama-type {
+    border-color: var(--kdrama-accent-dim);
+    color: var(--kdrama-accent);
+    background: rgba(74,144,217,0.08);
+  }
+
+  .mal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(229,9,20,0.3);
+    background: rgba(229,9,20,0.06);
+    transition: all 0.15s;
+    cursor: none;
+  }
+
+  .mal-link:hover {
+    background: rgba(229,9,20,0.15);
+    border-color: rgba(229,9,20,0.6);
+    box-shadow: 0 0 15px rgba(229,9,20,0.4);
+  }
+
+  .mal-link.kdrama-link {
+    color: var(--kdrama-accent);
+    border-color: rgba(74,144,217,0.3);
+    background: rgba(74,144,217,0.06);
+  }
+
+  .mal-link.kdrama-link:hover {
+    background: rgba(74,144,217,0.15);
+    border-color: rgba(74,144,217,0.6);
+    box-shadow: 0 0 15px rgba(74,144,217,0.4);
+  }
+
+  .no-mal {
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+    padding: 3px 8px;
+  }
+
+  .day-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+    white-space: nowrap;
+  }
+
+  .date-label {
+    font-size: 0.58rem;
+    color: var(--text-dimmer);
+    letter-spacing: 0.04em;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-dimmer);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    opacity: 0;
+    animation: cardReveal 0.6s ease forwards;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 50px;
+    padding: 24px 20px;
+    text-align: center;
+    border-radius: 12px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  footer.revealed {
+    animation: cardReveal 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  footer .creator {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  footer .creator span { color: var(--accent); }
+
+  footer .copyright {
+    font-size: 0.65rem;
+    color: var(--text-dimmer);
+    letter-spacing: 0.06em;
+  }
+
+  .hidden { display: none !important; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .grid-view {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .list-view .anime-card {
+      flex-wrap: wrap;
+    }
+
+    .list-view .anime-card .info {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search-wrap { flex: 1 1 auto; }
+  }
+
+  /* REDUCED MOTION */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .cursor-dot, .cursor-ring { display: none !important; }
+    body { cursor: auto; }
+    .anime-card, header, .controls, .day-tabs, footer {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- PARALLAX GLOW LAYERS -->
+<div class="glow-layer glow-1" data-parallax="0.03"></div>
+<div class="glow-layer glow-2" data-parallax="0.04"></div>
+<div class="glow-layer glow-3" data-parallax="0.02"></div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<div class="container">
+
+  <header>
+    <div class="header-top">
+      <h1>ANIME <span>ARCHIVE</span> INDEX</h1>
+      <div class="badges">
+        <span class="badge live" id="todayBadge">Today: —</span>
+        <span class="badge accent">Fall 2026 Transmission</span>
+        <span class="badge" id="countdownBadge">—</span>
+        <span class="badge" id="countBadge">0 Titles</span>
+        <span class="badge" id="malCountBadge">0 MAL</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Search titles..." autocomplete="off">
+    </div>
+    <div class="toggle-group" id="viewToggle">
+      <button data-view="list" class="active">Compact</button>
+      <button data-view="grid">Grid</button>
+    </div>
+    <div class="mal-switch" id="malSwitch">
+      <div class="switch-track"></div>
+      <span>MAL Only</span>
+    </div>
+  </div>
+
+  <div class="day-tabs" id="dayTabs">
+    <button class="day-tab active" data-day="all">All Days</button>
+    <button class="day-tab" data-day="mon">Mon</button>
+    <button class="day-tab" data-day="tue">Tue</button>
+    <button class="day-tab" data-day="wed">Wed</button>
+    <button class="day-tab" data-day="thu">Thu</button>
+    <button class="day-tab" data-day="fri">Fri</button>
+    <button class="day-tab" data-day="sat">Sat</button>
+    <button class="day-tab" data-day="sun">Sun</button>
+  </div>
+
+  <div class="view-container">
+    <div id="animeList" class="list-view"></div>
+  </div>
+
+  <footer>
+    <div class="creator">Created by <span>Rahul_Jyoti_7</span></div>
+    <div class="copyright">© 2026 Rahul_Jyoti_7. All rights reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+const SCHEDULE = [
+  // ============ ANIME ============
+  { day: 'mon', date: '05 Oct, 2026', title: 'PSYREN', type: 'TV', mal: 'https://myanimelist.net/manga/3438', category: 'anime' },
+  { day: 'mon', date: '05 Oct, 2026', title: "So What's Wrong with Getting Reborn as a Goblin?", type: 'TV', mal: null, category: 'anime' },
+  { day: 'mon', date: '05 Oct, 2026', title: 'Hello, I Am a Witch and My Crush Wants Me to Make a Love Potion!', type: 'TV', mal: 'https://myanimelist.net/manga/133748', category: 'anime' },
+  { day: 'tue', date: '06 Oct, 2026', title: 'Nia Liston: The Merciless Maiden', type: 'TV', mal: 'https://myanimelist.net/manga/145892', category: 'anime' },
+  { day: 'tue', date: '06 Oct, 2026', title: 'Battle Spirits [Re] Zekkai No Ku', type: 'TV', mal: 'https://myanimelist.net/anime/5062', category: 'anime' },
+  { day: 'tue', date: '06 Oct, 2026', title: 'The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life', type: 'TV', mal: 'https://myanimelist.net/manga/137691', category: 'anime' },
+  { day: 'tue', date: '13 Oct, 2026', title: 'Chitose Is in the Ramune Bottle Part 2', type: 'TV', mal: 'https://myanimelist.net/anime/58278', category: 'anime' },
+  { day: 'tue', date: '20 Oct, 2026', title: 'Cyberpunk: Edgerunners Season 2', type: 'ONA', mal: 'https://myanimelist.net/anime/42310', category: 'anime' },
+  { day: 'wed', date: '30 Sep, 2026', title: 'Reincarnated as a Sword Season 2', type: 'TV', mal: 'https://myanimelist.net/anime/53488', category: 'anime' },
+  { day: 'wed', date: '07 Oct, 2026', title: 'The Detective Is Already Dead Season 2', type: 'TV', mal: 'https://myanimelist.net/anime/52482', category: 'anime' },
+  { day: 'wed', date: '07 Oct, 2026', title: 'Magic Knight Rayearth (2026)', type: 'TV', mal: 'https://myanimelist.net/anime/59196', category: 'anime' },
+  { day: 'wed', date: '07 Oct, 2026', title: "The World's Strongest Witch", type: 'TV', mal: null, category: 'anime' },
+  { day: 'wed', date: '07 Oct, 2026', title: 'Sasaki and Peeps Season 2', type: 'TV', mal: 'https://myanimelist.net/anime/58344', category: 'anime' },
+  { day: 'wed', date: '07 Oct, 2026', title: "A Returner's Magic Should Be Special Season 2", type: 'TV', mal: 'https://myanimelist.net/anime/57540', category: 'anime' },
+  { day: 'thu', date: '01 Oct, 2026', title: 'The Ramparts of Ice Season 2', type: 'TV', mal: 'https://myanimelist.net/manga/135243', category: 'anime' },
+  { day: 'thu', date: '01 Oct, 2026', title: 'FX Fighter Kurumi-chan', type: 'TV', mal: 'https://myanimelist.net/manga/135677', category: 'anime' },
+  { day: 'thu', date: '08 Oct, 2026', title: 'The Iceblade Sorcerer Shall Rule the World Season 2', type: 'TV', mal: 'https://myanimelist.net/anime/51367', category: 'anime' },
+  { day: 'fri', date: '25 Sep, 2026', title: "STEEL BALL RUN: JoJo's Bizarre Adventure", type: 'ONA', mal: 'https://myanimelist.net/manga/1706', category: 'anime' },
+  { day: 'fri', date: '02 Oct, 2026', title: 'The Apothecary Diaries Season 3', type: 'TV', mal: 'https://myanimelist.net/anime/58560', category: 'anime' },
+  { day: 'fri', date: '02 Oct, 2026', title: 'Tokyo Revengers: War of the Three Titans Arc', type: 'TV', mal: 'https://myanimelist.net/anime/42249', category: 'anime' },
+  { day: 'fri', date: '09 Oct, 2026', title: 'Firefly Wedding', type: 'TV', mal: 'https://myanimelist.net/manga/155355', category: 'anime' },
+  { day: 'fri', date: '09 Oct, 2026', title: 'A Certain ITEM of Dark Side', type: 'TV', mal: 'https://myanimelist.net/manga/156641', category: 'anime' },
+  { day: 'sat', date: '26 Sep, 2026', title: 'A Wild Last Boss Appeared Season 2', type: 'TV', mal: 'https://myanimelist.net/manga/99166', category: 'anime' },
+  { day: 'sat', date: '03 Oct, 2026', title: 'Black Clover Season 2', type: 'TV', mal: 'https://myanimelist.net/anime/34572', category: 'anime' },
+  { day: 'sat', date: '03 Oct, 2026', title: 'Even the Student Council Has Its Holes!', type: 'TV', mal: 'https://myanimelist.net/manga/147669', category: 'anime' },
+  { day: 'sat', date: '03 Oct, 2026', title: 'Magical Explorer: Reborn as a Side Character in a Fantasy Dating Sim', type: 'TV', mal: 'https://myanimelist.net/manga/122971', category: 'anime' },
+  { day: 'sat', date: '03 Oct, 2026', title: 'The Seven Knights of the Marronnier Kingdom', type: 'TV', mal: 'https://myanimelist.net/manga/104169', category: 'anime' },
+  { day: 'sat', date: '03 Oct, 2026', title: 'Vertex Force', type: 'TV', mal: null, category: 'anime' },
+  { day: 'sat', date: '03 Oct, 2026', title: 'Ranma 1/2 3rd Season', type: 'TV', mal: 'https://myanimelist.net/anime/59103', category: 'anime' },
+  { day: 'sat', date: '03 Oct, 2026', title: 'Magic Repo Man', type: 'TV', mal: null, category: 'anime' },
+  { day: 'sat', date: '10 Oct, 2026', title: 'The Vermilion Mask', type: 'TV', mal: 'https://myanimelist.net/manga/91959', category: 'anime' },
+  { day: 'sun', date: '27 Sep, 2026', title: "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Season 3", type: 'TV', mal: 'https://myanimelist.net/anime/59039', category: 'anime' },
+  { day: 'sun', date: '27 Sep, 2026', title: 'Overgeared', type: 'TV', mal: 'https://myanimelist.net/manga/126154', category: 'anime' },
+  { day: 'sun', date: '04 Oct, 2026', title: 'Blue Box Season 2', type: 'TV', mal: 'https://myanimelist.net/anime/57181', category: 'anime' },
+  { day: 'sun', date: '04 Oct, 2026', title: 'Aoashi Season 2', type: 'TV', mal: 'https://myanimelist.net/anime/49052', category: 'anime' },
+  { day: 'sun', date: '04 Oct, 2026', title: 'The Lonely Snow Widow and the Cursed Ring', type: 'TV', mal: null, category: 'anime' },
+  { day: 'sun', date: '04 Oct, 2026', title: "Even Though I'm a Super Timid Noble Girl, I Accepted the Bet From My Cunning Fiancé!", type: 'TV', mal: 'https://myanimelist.net/manga/137637', category: 'anime' },
+  { day: 'sun', date: '04 Oct, 2026', title: 'TANK CHAIR', type: 'TV', mal: 'https://myanimelist.net/manga/151978', category: 'anime' },
+  { day: 'sun', date: '04 Oct, 2026', title: 'From Far Away', type: 'TV', mal: 'https://myanimelist.net/manga/923', category: 'anime' },
+  { day: 'sun', date: '04 Oct, 2026', title: "Uncle's Obsession with Cute Things", type: 'TV', mal: 'https://myanimelist.net/manga/128383', category: 'anime' },
+  { day: 'sun', date: '04 Oct, 2026', title: "My Girlfriend's Friend", type: 'TV', mal: 'https://myanimelist.net/manga/140268', category: 'anime' },
+  { day: 'sun', date: '04 Oct, 2026', title: "I'm Dating a Dark Summoner", type: 'TV', mal: 'https://myanimelist.net/manga/155708', category: 'anime' },
+  { day: 'sun', date: '11 Oct, 2026', title: 'Dragon Ball Super: Beerus', type: 'TV', mal: 'https://myanimelist.net/anime/30694', category: 'anime' },
+  { day: 'sun', date: '11 Oct, 2026', title: 'Full Clearing Another World Under a Goddess with Zero Believers', type: 'TV', mal: 'https://myanimelist.net/manga/126135', category: 'anime' },
+  { day: 'sun', date: '11 Oct, 2026', title: 'Mission: Yozakura Family Season 2 Part 2', type: 'TV', mal: 'https://myanimelist.net/anime/53862', category: 'anime' },
+
+  // ============ KDRAMA ============
+  { day: 'thu', date: '01 Oct, 2026', title: 'Your Personal Taxi', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'mon', date: '05 Oct, 2026', title: 'Between Steps', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'wed', date: '07 Oct, 2026', title: 'Merry Berry Love', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'fri', date: '09 Oct, 2026', title: 'Take Charge of My Heart', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'fri', date: '09 Oct, 2026', title: 'Doctor X: Mafia in White', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'sat', date: '10 Oct, 2026', title: '100 Days of Deception', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'thu', date: '15 Oct, 2026', title: 'Make Me Tingle', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'mon', date: '19 Oct, 2026', title: 'Love in Disguise', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'sat', date: '24 Oct, 2026', title: 'Final Table', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'sat', date: '24 Oct, 2026', title: 'Oh! My Guard', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'mon', date: '26 Oct, 2026', title: 'Summer Vacation', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'fri', date: '30 Oct, 2026', title: 'The Perfect Lie', type: 'KDrama', mal: null, category: 'kdrama' },
+  { day: 'fri', date: '30 Oct, 2026', title: 'Dead-End Job', type: 'KDrama', mal: null, category: 'kdrama' },
+];
+
+let currentDay = 'all';
+let currentSearch = '';
+let malOnly = false;
+let currentView = 'list';
+
+const animeListEl = document.getElementById('animeList');
+const searchInput = document.getElementById('searchInput');
+const dayTabs = document.getElementById('dayTabs');
+const viewToggle = document.getElementById('viewToggle');
+const malSwitch = document.getElementById('malSwitch');
+const countBadge = document.getElementById('countBadge');
+const malCountBadge = document.getElementById('malCountBadge');
+const todayBadge = document.getElementById('todayBadge');
+const countdownBadge = document.getElementById('countdownBadge');
+
+// ============ CUSTOM CURSOR ============
+const cursorDot = document.getElementById('cursorDot');
+const cursorRing = document.getElementById('cursorRing');
+
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
+if (!isTouchDevice && !prefersReducedMotion) {
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorDot.style.transform = `translate(${mouseX - 3}px, ${mouseY - 3}px)`;
+  });
+
+  // Smooth lerp for ring trailing
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+    cursorRing.style.transform = `translate(${ringX - 18}px, ${ringY - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Hover states
+  const hoverTargets = 'a, button, input, .anime-card, .day-tab, .mal-switch, .toggle-group button';
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(hoverTargets)) {
+      cursorDot.classList.add('hover');
+      cursorRing.classList.add('hover');
+    }
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(hoverTargets)) {
+      cursorDot.classList.remove('hover');
+      cursorRing.classList.remove('hover');
+    }
+  });
+
+  // Click feedback
+  document.addEventListener('mousedown', () => {
+    cursorDot.classList.add('click');
+    cursorRing.classList.add('click');
+  });
+  document.addEventListener('mouseup', () => {
+    cursorDot.classList.remove('click');
+    cursorRing.classList.remove('click');
+  });
+}
+
+// ============ PARALLAX GLOW ============
+if (!prefersReducedMotion) {
+  const glowLayers = document.querySelectorAll('[data-parallax]');
+  document.addEventListener('mousemove', (e) => {
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    glowLayers.forEach(layer => {
+      const factor = parseFloat(layer.dataset.parallax);
+      layer.style.transform = `translate(${dx * factor}px, ${dy * factor}px)`;
+    });
+  });
+}
+
+// ============ SCROLL REVEAL (IntersectionObserver) ============
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+function observeElements() {
+  document.querySelectorAll('.anime-card:not(.revealed)').forEach((card, i) => {
+    // stagger delay
+    card.style.animationDelay = `${Math.min(i * 0.03, 0.4)}s`;
+    revealObserver.observe(card);
+  });
+}
+
+// ============ 3D TILT ON CARDS ============
+function attachTilt(card) {
+  if (prefersReducedMotion || isTouchDevice) return;
+
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -6;
+    const rotateY = ((x - centerX) / centerX) * 6;
+
+    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
+    card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
+    card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+}
+
+// ============ LIVE DATE + COUNTDOWN ============
+const SEASON_START = new Date('2026-09-25T00:00:00');
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function updateDateWidgets() {
+  const now = new Date();
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  const todayStr = `${dayNames[now.getDay()]}, ${pad(now.getDate())} ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+  todayBadge.textContent = 'Today: ' + todayStr;
+
+  const msPerDay = 1000 * 60 * 60 * 24;
+  const diffDays = Math.ceil((SEASON_START - now) / msPerDay);
+
+  if (diffDays > 1) {
+    countdownBadge.textContent = `Season starts in ${diffDays} days`;
+  } else if (diffDays === 1) {
+    countdownBadge.textContent = `Season starts tomorrow`;
+  } else if (diffDays === 0) {
+    countdownBadge.textContent = `Season starts today`;
+  } else {
+    countdownBadge.textContent = `Season live · Day ${Math.abs(diffDays) + 1}`;
+  }
+}
+
+function getFiltered() {
+  let items = SCHEDULE;
+  if (currentDay !== 'all') items = items.filter(a => a.day === currentDay);
+  if (currentSearch) {
+    const q = currentSearch.toLowerCase();
+    items = items.filter(a => a.title.toLowerCase().includes(q));
+  }
+  if (malOnly) items = items.filter(a => a.mal);
+  return items;
+}
+
+function render() {
+  const items = getFiltered();
+  const viewClass = currentView === 'grid' ? 'grid-view' : 'list-view';
+  animeListEl.className = viewClass;
+
+  countBadge.textContent = items.length + ' Title' + (items.length !== 1 ? 's' : '');
+  const malCount = items.filter(a => a.mal).length;
+  malCountBadge.textContent = malCount + ' MAL';
+
+  if (items.length === 0) {
+    animeListEl.innerHTML = '<div class="empty-state">No transmissions match your filters.</div>';
+    return;
+  }
+
+  animeListEl.innerHTML = items.map(a => {
+    const isKdrama = a.category === 'kdrama';
+    const malHtml = a.mal
+      ? `<a href="${a.mal}" target="_blank" rel="noopener" class="mal-link ${isKdrama ? 'kdrama-link' : ''}">MAL ↗</a>`
+      : `<span class="no-mal">— No Link</span>`;
+
+    const typeClass = isKdrama ? 'kdrama-type' : '';
+
+    return `
+      <div class="anime-card ${isKdrama ? 'kdrama' : ''}">
+        <div class="info">
+          <div class="title">${escapeHtml(a.title)}</div>
+          <div class="meta-row">
+            <span class="type-tag ${typeClass}">${a.type}</span>
+            <span class="day-label">${a.day.toUpperCase()}</span>
+            <span class="date-label">${a.date}</span>
+            ${malHtml}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Attach animations to newly rendered cards
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.anime-card').forEach(card => {
+      attachTilt(card);
+    });
+    observeElements();
+  });
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// DAY TABS
+dayTabs.addEventListener('click', e => {
+  const btn = e.target.closest('.day-tab');
+  if (!btn) return;
+  dayTabs.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentDay = btn.dataset.day;
+  render();
+});
+
+// SEARCH
+searchInput.addEventListener('input', e => {
+  currentSearch = e.target.value.trim();
+  render();
+});
+
+// VIEW TOGGLE
+viewToggle.addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  viewToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentView = btn.dataset.view;
+  render();
+});
+
+// MAL SWITCH
+malSwitch.addEventListener('click', () => {
+  malOnly = !malOnly;
+  malSwitch.classList.toggle('on', malOnly);
+  render();
+});
+
+// INIT
+updateDateWidgets();
+render();
+
+// Reveal header/controls/tabs/footer on load
+window.addEventListener('load', () => {
+  document.querySelector('header').classList.add('revealed');
+  document.querySelector('.controls').classList.add('revealed');
+  document.querySelector('.day-tabs').classList.add('revealed');
+  setTimeout(() => document.querySelector('footer').classList.add('revealed'), 600);
+});
+
+setInterval(updateDateWidgets, 60000);
+</script>
+</body>
+          </html>
